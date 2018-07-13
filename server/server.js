@@ -21,14 +21,23 @@ app.post('/todos', (req, res) => {
     });
 
     todo.save().then((doc) => {
-        res.status(200).send(doc);
-        console.log("Saved todo:");
-        console.log(JSON.stringify(doc, undefined, 2));
+        res.send(doc);
     }, (err) => {
         res.status(400).send(err);
-        console.log("Unable to save todo:", err);
     });
 });
+
+app.get('/todos', (req, res) => {
+    Todo.find().then((todos) => {
+        res.send({
+            todos
+        });
+    }, (err) => {
+        res.status(400).send(err);
+    });
+});
+
+
 
 app.listen(3000, () => {
     console.log('Started on port 3000');
